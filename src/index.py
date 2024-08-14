@@ -77,7 +77,7 @@ for szczepionka in szczepionki:
                 szczepionki[szczepionka] -= 1
                 pozostala_liczba_szczepien -= 1
 
-with open('wizyty.txt', 'w') as f:
+with open('../wizyty.txt', 'w') as f:
     shuffle(wizyty)
     f.write(
         "	".join(['Pesel', 'kod_szczepionki', 'data_szczepienia', 'dawka']) + "\n" +
