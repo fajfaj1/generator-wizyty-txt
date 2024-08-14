@@ -41,8 +41,10 @@ def __cyfra_kontrolna(rrmmddpppp):
     suma = 0
     for cyfra in pomnozone:
         suma += cyfra
-
-    return 10 - int(list(str(suma)).pop())
+    roznica = int(list(str(suma)).pop())
+    if roznica == 0:
+        roznica = 10
+    return 10 - roznica
 
 
 def pesel(plec: str):
