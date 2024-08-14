@@ -2,8 +2,8 @@ from typing import Literal
 from random import randint
 import math
 from datetime import datetime
+import itertools
 
-_PLEC = Literal['k', 'm']
 obecny_rok = datetime.now().year
 
 
@@ -30,7 +30,22 @@ def __liczba_porzadkowa():
     return ostatnia_liczba_porzadkowa + 1 % 999
 
 
-def pesel(plec: _PLEC):
+def __cyfra_kontrolna(rrmmddpppp):
+    cyfry = list(rrmmddpppp)
+    cyfra_plci = int(cyfry[len(cyfry) - 1])
+    wagi = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3]
+    pomnozone = []
+    for index, cyfra in enumerate(cyfry):
+        pomnozone.append(int(list(str(int(cyfra) * wagi[index])).pop()))
+
+    suma = 0
+    for cyfra in pomnozone:
+        suma += cyfra
+
+    return 10 - int(list(str(suma)).pop())
+
+
+def pesel(plec: str):
     rok = randint(obecny_rok - 85, obecny_rok - 18)
     miesiac = randint(1, 12)
     dzien = randint(1, __liczba_dni_w_miesiacu(miesiac))
@@ -48,5 +63,5 @@ def pesel(plec: _PLEC):
     dd = str(dzien).rjust(2, '0')
     pppp = str(__liczba_porzadkowa()).rjust(3, '0') + str(cyfra_plci)
     rrmmddpppp = rr + mm + dd + pppp
-
-    return rrmmddpppp
+    rrmmddppppk = rrmmddpppp + str(__cyfra_kontrolna(rrmmddpppp))
+    return rrmmddppppk
